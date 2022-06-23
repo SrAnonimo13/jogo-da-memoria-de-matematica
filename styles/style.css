@@ -1,0 +1,13 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border: none;
+  font-family: 'Righteous', cursive, sans-serif;
+}
+
+body{
+  height: 100vh;
+  background-color: #191919;
+  position: relative;
+}

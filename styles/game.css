@@ -1,0 +1,45 @@
+#jogo{
+  display: grid;
+  height: 90%;
+}
+
+.card {
+  margin: 5px;
+  perspective: 1000px;
+  border-radius: 10px;
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+  position: relative;
+  font-size: larger;
+}
+
+.flip-card {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  position: absolute;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.rotate {
+  transform: rotateY(180deg);
+} 
+
+.flip-card-front {
+  color: black;
+  transform: rotateY(180deg);
+}
+
+.flip-card-back {
+  background-color: #eee;
+  color: black;
+  font-size: xx-large;
+}
+
+.flip-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+}

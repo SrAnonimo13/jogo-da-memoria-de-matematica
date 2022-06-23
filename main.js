@@ -37,7 +37,6 @@ const winnerDiv = document.querySelector('.winner');
 const errosTotalDiv = document.getElementById('errorsTotal');
 
 function init() {
-
   for (const card of cards) {
     const color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -76,10 +75,9 @@ function init() {
           setTimeout(() => {
             delay = false;
             desviraVirados();
-          }, 1 * 1000);
+          }, 1000);
         }
         last = { div: null, result: null };
-        //ultimoResultado = e.target.parentElement.getAttribute('result')
       })
 
       flipCardBack.innerText = "?";
@@ -109,15 +107,6 @@ function desviraVirados() {
 }
 
 init();
-
-addEventListener('keydown', e => {
-  console.log(e.key)
-  if (e.key === 'd') {
-    errosTotalDiv.innerText = errorCounterDiv.innerText
-    winnerDiv.classList.add('show');
-    return;
-  }
-})
 
 function ResetGame() {
   game.innerHTML = "";
