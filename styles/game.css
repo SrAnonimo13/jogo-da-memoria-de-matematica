@@ -43,3 +43,7 @@
   justify-content: center;
   font-family: sans-serif;
 }
+
+.flip-card, .card{
+  border-radius: 5px;
+}

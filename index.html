@@ -5,27 +5,41 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles/style.css">
-  <link rel="stylesheet" href="styles/header.css">  
-  <link rel="stylesheet" href="styles/game.css">  
-  <link rel="stylesheet" href="styles/winner.css">  
+  <link rel="stylesheet" href="styles/header.css">
+  <link rel="stylesheet" href="styles/game.css">
+  <link rel="stylesheet" href="styles/alerts.css">
   <title>Jogo da Memoria de Matemática</title>
 </head>
 
 <body>
-  <div class="winner hide">
-    <div class="box">
+  <div class="alerts">
+    <div class="winner">
       <h1>Fim de Jogo</h1>
       <p>Você encontrou todos os pares com</p>
-      <h2><span id="errorsTotal">0</span> Passos</h3>
-      <button id="playagin">Jogar novamente</button>
+      <h2><span id="errorsTotal">0</span> Passos</h2>
+      <button id="restart-winner">Jogar novamente</button>
+    </div>
+    <div class="menu">
+      <h1>Jogo da Memoria de Matemática</h1>
+      <p>Dificuldade:</p>
+      <input id="difficulty-range" type="range" max="2">
+      <label for="difficulty-range" id="difficulty"></label>
+      <section>
+        <button id="playagin-menu">Voltar a jogar</button>
+        <button id="restart-menu">Reiniciar o Jogo</button>
+      </section>
     </div>
   </div>
   <header>
-    <h2>Passos <span id="error">0</span></h1>
-    <button id="reset">Reiniciar</button>
+    <h2>Passos <span id="error">0</span></h2>
+    <div class="menu-bar" id="menu-button">
+      <div class="bar"></div>
+      <div class="bar"></div>
+      <div class="bar"></div>
+    </div>
   </header>
   <section id="jogo"></section>
   <script src="main.js"></script>
