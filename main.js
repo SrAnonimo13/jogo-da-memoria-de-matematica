@@ -11,6 +11,7 @@ let last = {
 let delay = false;
 let difficulty = 1; //0 = easy 1 = normal 2 = hard
 let difficultyHasChange = false;
+let offset = 0;
 
 const colors = [
   "#00b8a9",
@@ -18,7 +19,7 @@ const colors = [
   "#f6416c",
   "#ffde7d",
 ]
-
+const list = document.getElementById("players-list");
 const cards = [
   {
     difficulty: 0,
@@ -65,6 +66,7 @@ const cards = [
     ]
   }
 ]
+const APIUrl = "https://jogo-da-memoria-api.herokuapp.com/api";
 
 game.style.gridTemplateColumns = new Array(GameWidth).fill('1fr').join(' ');
 // POR FAVOR ANÔNIMO, NÃO QUEBRE O CÓDIGO
@@ -76,7 +78,6 @@ const difficultyRange = document.getElementById('difficulty-range');
 const difficultyLabel = document.getElementById('difficulty');
 
 function init() {
-  console.log(cards, difficulty)
   for (const card of cards.find(e => e.difficulty == difficulty).cards) {
     const color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -137,6 +138,25 @@ function init() {
   }
 }
 
+addPlayersList();
+
+async function reloadPlayerList() {
+  const itens = await fetch(`${APIUrl}/get?offset=${0}&size=${offset * 4}`).then(e => e.json());
+
+  document.getElementById("players-list").innerHTML = `<button id="load-more">Load More</button>`;
+  for (const item of itens) {
+    addBlockList(item.name, item.erros, item.dificulty);
+  }
+}
+
+async function addPlayersList() {
+  const itens = await fetch(`${APIUrl}/get?offset=${offset}&size=4`).then(e => e.json());
+  for (const item of itens) {
+    addBlockList(item.name, item.erros, item.dificulty);
+    offset += 1;
+  }
+}
+
 function desviraVirados() {
   let virados = document.querySelectorAll('.rotate')
   virados.forEach(e => {
@@ -149,11 +169,11 @@ function desviraVirados() {
 init();
 
 function showDifficult() {
-  const labels = {
-    0: 'Fácil',
-    1: 'Normal',
-    2: 'Difícil',
-  }
+  const labels = [
+    'Fácil',
+    'Normal',
+    'Difícil',
+  ];
 
   difficulty = difficultyRange.value;
   difficultyLabel.innerText = labels[difficulty];
@@ -174,6 +194,10 @@ function ResetGame() {
   init();
 }
 
+document.getElementById('load-more').addEventListener('click', () => {
+  addPlayersList();
+});
+
 document.getElementById('menu-button').addEventListener('click', () => {
   alertsDiv.classList.add('show', 'menu');
 });
@@ -188,6 +212,88 @@ document.getElementById('restart-menu').addEventListener('click', () => {
   ResetGame();
 });
 
+document.getElementById('list-button').addEventListener('click', () => {
+  alertsDiv.classList.add('show', 'list');
+});
+
+document.getElementById('back-list').addEventListener('click', () => {
+  alertsDiv.classList.remove('show', 'list');
+});
+
+function getCookies() {
+  return document.cookie.split(';').map(e => {
+    const values = e.split('=');
+    return { name: values[0], value: values[1] };
+  });
+}
+
+/**@param {{name: string, value: string}} cookie */
+function addCookie(cookie) {
+  document.cookie = [cookie.name, cookie.value].join('=');
+}
+
+function findCookie(name) {
+  for (const value of getCookies()) {
+    if (value.name.trim() == name) return value;
+  }
+
+  return undefined;
+}
+
+document.getElementById('add-rank').addEventListener('click', async () => {
+  const cookie = findCookie('jdm-name');
+  
+  let value = cookie?.value;
+  
+  if (!value) value = prompt("Digite seu nome");
+
+  if (!cookie) {
+    addCookie({ name: "jdm-name", value });
+  }
+
+  const data = {
+    name: value,
+    erros: errorCounterDiv.innerText,
+    dificulty: Number(difficulty) + 1
+  };
+  
+  const PostJsonRequestOptions = {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': true
+    },
+    method: "POST",
+    mode: "no-cors"
+  }
+  
+  await fetch(`${APIUrl}/add`, {
+    ...PostJsonRequestOptions,
+    body: JSON.stringify(data),
+  }).then(async e => {
+    if (e.status !== 200) {
+      const text = await e.text()
+      if (text === "User Allayers exist!") {
+        await fetch(`${APIUrl}/modify:${value}`, {
+          ...PostJsonRequestOptions,
+          body: JSON.stringify(data)
+        });
+        
+        alertsDiv.classList.remove('show', 'winner');
+        ResetGame();
+        return;
+      }
+      
+      document.getElementById("winner-error-message").innerText = text;
+    } else {
+      alertsDiv.classList.remove('show', 'winner');
+      ResetGame();
+    }
+  });
+
+  await reloadPlayerList();
+});
+
 document.getElementById('playagin-menu').addEventListener('click', () => {
   if (difficultyHasChange) {
     ResetGame();
@@ -195,4 +301,34 @@ document.getElementById('playagin-menu').addEventListener('click', () => {
 
   difficultyHasChange = false;
   alertsDiv.classList.remove('show', 'menu');
-})
+});
+
+function addBlockList(name, erros, difficultyLvl) {
+  const div = document.createElement('div');
+  div.className = "block";
+
+  let difficultyName = "Fácil";
+  let difficultyClass = "easy";
+
+  switch (difficultyLvl) {
+    case 2:
+      difficultyName = "Médio";
+      difficultyClass = "medium";
+      break;
+
+    case 3:
+      difficultyName = "Difícil";
+      difficultyClass = "hard";
+      break;
+  }
+
+  div.innerHTML = `<div class="left">
+    <h1>${name}</h1>
+    <p>${erros} passos</p>
+  </div>
+  <div class="right ${difficultyClass}">
+    <i class="fa-solid fa-trophy"></i>
+    <p>${difficultyName}</p>
+  </div>`
+  document.getElementById("load-more").before(div);
+}

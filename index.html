@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="styles/header.css">
   <link rel="stylesheet" href="styles/game.css">
   <link rel="stylesheet" href="styles/alerts.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <title>Jogo da Memoria de Matemática</title>
 </head>
 
@@ -20,7 +22,11 @@
       <h1>Fim de Jogo</h1>
       <p>Você encontrou todos os pares com</p>
       <h2><span id="errorsTotal">0</span> Passos</h2>
-      <button id="restart-winner">Jogar novamente</button>
+      <section>
+        <button id="restart-winner">Jogar novamente</button>
+        <button id="add-rank">Adicionar no ranking</button>
+      </section>
+      <p id="winner-error-message" style="color: red; margin-top: 10px;"> </p>
     </div>
     <div class="menu">
       <h1>Jogo da Memoria de Matemática</h1>
@@ -32,13 +38,25 @@
         <button id="restart-menu">Reiniciar o Jogo</button>
       </section>
     </div>
+    <div class="players-list">
+      <h1>Top players</h1>
+      <section class="list" id="players-list">
+        <button id="load-more">Load More</button>
+      </section>
+      <section class="buttons">
+        <button id="back-list">Voltar</button>
+      </section>
+    </div>
   </div>
   <header>
     <h2>Passos <span id="error">0</span></h2>
-    <div class="menu-bar" id="menu-button">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
+    <div>
+      <i class="fa-solid fa-trophy" id="list-button"></i>
+      <div class="menu-bar" id="menu-button">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
     </div>
   </header>
   <section id="jogo"></section>

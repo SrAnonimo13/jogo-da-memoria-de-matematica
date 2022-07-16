@@ -13,16 +13,18 @@
 
 .alerts.show{
   display: flex;
-  animation: shade 1s ease-out;
+  animation: shade .2s ease-out;
 }
 
-.alerts.show.winner .winner, .alerts.show.menu .menu{
+.alerts.show.winner .winner,
+.alerts.show.menu .menu,
+.alerts.alerts.show.list .players-list{
   display: flex;
 }
 
-.alerts.show.menu{
+/* .alerts.show.menu{
   animation: shade .2s ease-out;
-}
+} */
 
 .alerts div h1{
   margin-bottom: .5rem;
@@ -50,7 +52,9 @@
 }
 
 @media only screen and (max-width: 423px) {
-  .alerts .winner, .alerts .menu{
+  .alerts > .players-list,
+  .alerts > .winner,
+  .alerts > .menu{
     width: 90%;
   }
 
@@ -65,7 +69,7 @@
   margin-bottom: .5rem;
 }
 
-.alerts div{
+.alerts > div{
   display: none;
   background-color: #c1f1f3;
   padding: 30px 10px;
@@ -83,14 +87,20 @@
   font-family: inherit;
 }
 
+.alerts .winner > section {
+  display: flex;
+  justify-content: space-around;
+}
+
 .alerts .winner button{
   padding: 10px;
   background-color: transparent;
-  border-radius: 30px;
-  border: #191919 solid 2px;
+  border-radius: 10px;
+  border: #07689f solid 2px;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
+  width: 40%;
 }
 
 @keyframes shade {
@@ -104,19 +114,110 @@
   }
 }
 
-.alerts .menu input{
+.alerts > .menu > input{
   margin-bottom: 10px;
 }
 
-.alerts .menu label{
+.alerts > .menu > label{
   margin-bottom: 20px;
 }
 
-.alerts .menu section button{
+.alerts button{
   /* width: 50%; */
   padding: 10px;
   border-radius: 10px;
   background-color: transparent;
   border: 2px solid #07689f;
   color: #07689f;
+}
+
+/* .alerts > .players-list {
+  height: 50vh;
+} */
+
+.alerts > .players-list > .list {
+  width: 100%;
+  height: 30vh;
+  overflow-y: scroll;
+  background-color: #def6f7;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.alerts > .players-list > .list > .block{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 5px;
+  background-color: #85b9d8;
+  border-radius: 5px;
+  color: #07689f;
+  width: 100%;
+}
+
+.alerts > .players-list > .list > .block > div.left > * {
+  text-align: left;
+}
+
+.alerts > .players-list > .list > .block > div.left > h1{
+  margin: 0px;
+}
+
+.alerts > .players-list > .list > .block > div.left > p{
+  font-size: .9rem;
+}
+
+.alerts > .players-list > .list > .block > div.right{
+  text-align: center;
+  width: 60px;
+}
+
+.alerts > .players-list > .list > .block > div.right > i{
+  font-size: 1.7rem;
+}
+
+.alerts > .players-list > .list > .block > div.right.hard > i,
+.alerts > .players-list > .list > .block > div.right.hard > p{
+  color: rgb(160, 0, 75);
+}
+
+.alerts > .players-list > .list > .block > div.right.easy > i,
+.alerts > .players-list > .list > .block > div.right.easy > p{
+  color: rgb(225, 65, 198);
+}
+
+.alerts > .players-list > .list > .block > div.right.medium > i,
+.alerts > .players-list > .list > .block > div.right.medium > p{
+  color: mediumseagreen;
+}
+
+#load-more {
+  margin-bottom: 5px;
+  height: auto;
+}
+
+.alerts > .players-list > .buttons{
+  margin-top: 10px;
+}
+
+.alerts > .players-list > .list > button{
+  width: 60%;
+  height: 30px;
+  background-color: #07689f;
+  color: #eee;
+  border-radius: 5px;
+}
+
+.alerts > .players-list > .list > .block:nth-child(1){
+  background-color: gold;
+}
+
+.alerts > .players-list > .list > .block:nth-child(2){
+  background-color: chocolate;
+}
+
+.alerts > .players-list > .list > .block:nth-child(3){
+  background-color: silver;
 }
