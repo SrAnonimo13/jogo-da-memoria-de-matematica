@@ -261,10 +261,8 @@ document.getElementById('add-rank').addEventListener('click', async () => {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': true
     },
     method: "POST",
-    mode: "no-cors"
   }
   
   await fetch(`${APIUrl}/add`, {
